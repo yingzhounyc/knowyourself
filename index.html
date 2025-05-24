@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Start with Purpose - Self-Study Course</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .course-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .course-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .course-header h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .course-header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+        }
+
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            height: 10px;
+            margin: 30px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 50px;
+        }
+
+        .module {
+            background: white;
+            border-radius: 15px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .module:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .module-header {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .module-header h2 {
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .module-icon {
+            font-size: 1.8rem;
+        }
+
+        .module-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .module-content.active {
+            max-height: 2000px;
+            padding: 30px;
+        }
+
+        .chevron {
+            transition: transform 0.3s ease;
+        }
+
+        .chevron.rotated {
+            transform: rotate(180deg);
+        }
+
+        .exercise-box {
+            background: #f8f9ff;
+            border-left: 5px solid #667eea;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 10px;
+        }
+
+        .exercise-title {
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .five-whys-container {
+            margin: 20px 0;
+        }
+
+        .why-step {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            transition: border-color 0.3s ease;
+        }
+
+        .why-step:focus-within {
+            border-color: #667eea;
+        }
+
+        .why-step label {
+            font-weight: bold;
+            color: #667eea;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .why-step textarea {
+            width: 100%;
+            border: none;
+            outline: none;
+            resize: vertical;
+            min-height: 80px;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .video-section {
+            background: #fff;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .video-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .video-card:hover {
+            transform: scale(1.02);
+            border-color: #667eea;
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .video-info {
+            padding: 20px;
+        }
+
+        .video-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .video-description {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .video-duration {
+            background: #667eea;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .completion-badge {
+            background: #4CAF50;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 10px 0;
+        }
+
+        .checklist {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .checklist li {
+            padding: 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .checklist input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #4CAF50;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .reflection-area {
+            background: #fff9e6;
+            border: 2px solid #ffd700;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .reflection-area h3 {
+            color: #cc8800;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .reflection-area textarea {
+            width: 100%;
+            min-height: 120px;
+            border: 2px solid #ffe066;
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 1rem;
+            resize: vertical;
+        }
+
+        @media (max-width: 768px) {
+            .course-header h1 {
+                font-size: 2rem;
+            }
+            
+            .course-header p {
+                font-size: 1.1rem;
+            }
+            
+            .module-header h2 {
+                font-size: 1.2rem;
+            }
+            
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="course-container">
+        <div class="course-header">
+            <h1><i class="fas fa-compass"></i> Start with Purpose</h1>
+            <p>Discover your authentic purpose and craft a compelling origin story</p>
+            
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-number" id="progress-percent">0%</div>
+                    <div>Progress</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">4</div>
+                    <div>Modules</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">2.5</div>
+                    <div>Hours</div>
+                </div>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+
+        <!-- Module 1: Foundation -->
+        <div class="module">
+            <div class="module-header" onclick="toggleModule(this)">
+                <h2><i class="fas fa-foundation module-icon"></i> Module 1: The Foundation of Purpose</h2>
+                <i class="fas fa-chevron-down chevron"></i>
+            </div>
+            <div class="module-content">
+                <p>Purpose isn't just a nice-to-have—it's your strategic advantage. Companies with a clear purpose outperform the S&P 500 by 5-7x over 15 years.</p>
+                
+                <div class="video-section">
+                    <h3><i class="fas fa-play-circle"></i> Recommended Videos</h3>
+                    <div class="video-grid">
+                        <div class="video-card" onclick="openVideo('https://www.youtube.com/watch?v=u4ZoJKF_VuA')">
+                            <div class="video-thumbnail">
+                                <i class="fab fa-youtube"></i>
+                            </div>
+                            <div class="video-info">
+                                <div class="video-title">Start With Why - Simon Sinek</div>
+                                <div class="video-description">The foundational TED talk that started the purpose movement. Essential viewing for understanding the power of starting with why.</div>
+                                <div class="video-duration">18 min</div>
+                            </div>
+                        </div>
+                        
+                        <div class="video-card" onclick="openVideo('https://youtu.be/rrkrvAUbU9Y?si=S5YyK3g0hc3DGBCt')">
+                            <div class="video-thumbnail">
+                                <i class="fab fa-youtube"></i>
+                            </div>
+                            <div class="video-info">
+                                <div class="video-title">The Puzzle of Motivation - Dan Pink</div>
+                                <div class="video-description">Discover what truly motivates us and how purpose drives performance better than external rewards.</div>
+                                <div class="video-duration">18 min</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exercise-box">
+                    <div class="exercise-title">
+                        <i class="fas fa-lightbulb"></i> Exercise: Purpose Reflection
+                    </div>
+                    <p>Before diving into the Five Whys, reflect on what drives you:</p>
+                    <div class="reflection-area">
+                        <h3><i class="fas fa-journal-whills"></i> Initial Reflection</h3>
+                        <textarea placeholder="What gets you excited to start working each day? What problems in the world bother you most? When do you feel most alive and energized?" id="initial-reflection"></textarea>
+                    </div>
+                </div>
+
+                <ul class="checklist">
+                    <li><input type="checkbox" onchange="updateProgress()"> Watch "Start With Why" video</li>
+                    <li><input type="checkbox" onchange="updateProgress()"> Watch "The Puzzle of Motivation" video</li>
+                    <li><input type="checkbox" onchange="updateProgress()"> Complete initial reflection</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Module 2: Five Whys Exercise -->
+        <div class="module">
+            <div class="module-header" onclick="toggleModule(this)">
+                <h2><i class="fas fa-search module-icon"></i> Module 2: The Five Whys Deep Dive</h2>
+                <i class="fas fa-chevron-down chevron"></i>
+            </div>
+            <div class="module-content">
+                <p>The Five Whys technique, originally developed by Toyota, helps you dig beneath surface motivations to find your authentic core purpose.</p>
+
+                <div class="video-section">
+                    <h3><i class="fas fa-play-circle"></i> Recommended Videos</h3>
+                    <div class="video-grid">
+                        <div class="video-card" onclick="openVideo('https://youtu.be/wYNwaSmBIKs?si=toiDCMp_gltt1iVP')">
+                            <div class="video-thumbnail">
+                                <i class="fab fa-youtube"></i>
+                            </div>
+                            <div class="video-info">
+                                <div class="video-title">How to Find Your Purpose - Jay Shetty</div>
+                                <div class="video-description">Practical framework for discovering what truly matters to you and how to align your life accordingly.</div>
+                                <div class="video-duration">12 min</div>
+                            </div>
+                        </div>
+                        
+                        <div class="video-card" onclick="openVideo('https://youtu.be/5Usvec3l6Ik?si=76rCbiCGgkSLtKey')">
+                            <div class="video-thumbnail">
+                                <i class="fab fa-youtube"></i>
+                            </div>
+                            <div class="video-info">
+                                <div class="video-title">The Five Whys Technique</div>
+                                <div class="video-description">Learn the systematic approach to root cause analysis that reveals deeper truths about motivation and purpose.</div>
+                                <div class="video-duration">8 min</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exercise-box">
+                    <div class="exercise-title">
+                        <i class="fas fa-question-circle"></i> The Five Whys Exercise
+                    </div>
+                    <p>Start with what your business or project does, then ask "Why does this matter?" five times, going deeper each time.</p>
+                    
+                    <div class="five-whys-container">
+                        <div class="why-step">
+                            <label>What do you do? (Your business, project, or work)</label>
+                            <textarea placeholder="Describe what you do in simple terms..." id="what-do"></textarea>
+                        </div>
+                        
+                        <div class="why-step">
+                            <label>Why #1: Why does this matter?</label>
+                            <textarea placeholder="Why is what you do important?" id="why-1"></textarea>
+                        </div>
+                        
+                        <div class="why-step">  
+                            <label>Why #2: Why does that matter?</label>
+                            <textarea placeholder="Go deeper - why is that important?" id="why-2"></textarea>
+                        </div>
+                        
+                        <div class="why-step">
+                            <label>Why #3: Why does that matter?</label>
+                            <textarea placeholder="Keep digging - what's beneath that?" id="why-3"></textarea>
+                        </div>
+                        
+                        <div class="why-step">
+                            <label>Why #4: Why does that matter?</label>
+                            <textarea placeholder="Go even deeper - what's really at stake?" id="why-4"></textarea>
+                        </div>
+                        
+                        <div class="why-step">
+                            <label>Why #5: Why does that matter?</label>
+                            <textarea placeholder="This is often where your true purpose emerges..." id="why-5"></textarea>
+                        </div>
+                    </div>
+                    
+                    <button class="btn" onclick="analyzeFiveWhys()">
+                        <i class="fas fa-analytics"></i> Analyze My Five Whys
+                    </button>
+                </div>
+
+                <div class="reflection-area" id="purpose-analysis" style="display: none;">
+                    <h3><i class="fas fa-star"></i> Your Purpose Analysis</h3>
+                    <p>Look at your five answers above. Which one gives you the most energy when you read it? Which one feels like it connects to something bigger than yourself? That's likely your purpose zone.</p>
+                    <textarea placeholder="Write your purpose statement based on your Five Whys analysis..." id="purpose-statement"></textarea>
+                </div>
+
+                <ul class="checklist">
+                    <li><input type="checkbox" onchange="updateProgress()"> Watch purpose-finding videos</li>
+                    <li><input type="checkbox" onchange="updateProgress()"> Complete Five Whys exercise</li>
+                    <li><input type="checkbox" onchange="updateProgress()"> Write your purpose statement</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Module 3: Story Architecture -->
+        <div class="module">
+            <div class="module-header" onclick="toggleModule(this)">
+                <h2><i class="fas fa-book-open module-icon"></i> Module 3: Crafting Your Origin Story</h2>
+                <i class="fas fa-chevron-down chevron"></i>
+            </div>
+            <div class="module-content">
+                <p>Stories activate the same neural regions as real experiences. Your origin story isn't just information—it's transformation.</p>
+
+                <div class="video-section">
+                    <h3><i class="fas fa-play-circle"></i> Recommended Videos</h3>
+                    <div class="video-grid">
+                        <div class="video-card" onclick="openVideo('https://youtu.be/hDp9hVDL49Y?si=ZiulL7_IiV9abN5W')">
+                            <div class="video-thumbnail">
+                                <i class="fab fa-youtube"></i>
+                            </div>
+                            <div class="video-info">
+                                <div class="video-title">The Power of Storytelling - How to Move People</div>
+                                <div class="video-description">Learn how great stories create connection and drive action, with frameworks for crafting compelling narratives.</div>
+                                <div class="video-duration">14 min</div>
+                            </div>
+                        </div>
+                        
+                        <div class="video-card" onclick="openVideo('https://youtu.be/zMUBuUtDw4g?si=4Frfpto8SBYgVB1H')">
+                            <div class="video-thumbnail">
+                                <i class="fab fa-youtube"></i>
+                            </div>
+                            <div class="video-info">
+                                <div class="video-title">Why Great Brands Use Storytelling</div>
+                                <div class="video-description">How successful brands use origin stories to build emotional connections and drive loyalty.</div>
+                                <div class="video-duration">13 min</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exercise-box">
+                    <div class="exercise-title">
+                        <i class="fas fa-pen-fancy"></i> The SPARK Framework™
+                    </div>
+                    <p>Every compelling origin story has five elements:</p>
+                    
+                    <div class="five-whys-container">
+                        <div class="why-step">
+                            <label><strong>S</strong>ituation: The world as it was</label>
+                            <textarea placeholder="Describe the context before you started. Be specific about time, place, and circumstances." id="spark-s"></textarea>
+                        </div>
+                        
+                        <div class="why-step">
+                            <label><strong>P</strong>roblem: What wasn't working</label>
+                            <textarea placeholder="What gap, frustration, or injustice bothered you? Make it personal and emotional." id="spark-p"></textarea>
+                        </div>
+                        
+                        <div class="why-step">
+                            <label><strong>A</strong>wakening: Your moment of clarity</label>
+                            <textarea placeholder="Describe your 'aha' moment. What shifted for you?" id="spark-a"></textarea>
+                        </div>
+                        
+                        <div class="why-step">
+                            <label><strong>R</strong>esponse: What you decided to do</label>
+                            <textarea placeholder="What was the first action you took? Be specific about the risk and the decision." id="spark-r"></textarea>
+                        </div>
+                        
+                        <div class="why-step">
+                            <label><strong>K</strong>inship: How others can join</label>
+                            <textarea placeholder="How can your audience be part of this mission? What's their role in the story?" id="spark-k"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <ul class="checklist">
+                    <li><input type="checkbox" onchange="updateProgress()"> Watch storytelling videos</li>
+                    <li><input type="checkbox" onchange="updateProgress()"> Complete SPARK framework</li>
+                    <li><input type="checkbox" onchange="updateProgress()"> Add sensory details to your story</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Module 4: Practice & Integration -->
+        <div class="module">
+            <div class="module-header" onclick="toggleModule(this)">
+                <h2><i class="fas fa-microphone module-icon"></i> Module 4: Practice & Integration</h2>
+                <i class="fas fa-chevron-down chevron"></i>
+            </div>
+            <div class="module-content">
+                <p>Your story should be deliverable in 90 seconds or less. Practice makes it natural, memorable, and impactful.</p>
+
+                <div class="video-section">
+                    <h3><i class="fas fa-play-circle"></i> Recommended Videos</h3>
+                    <div class="video-grid">
+                        <div class="video-card" onclick="openVideo('https://youtu.be/tnpiuqoA-pQ?si=17NqWM2Wv1T3wggS')">
+                            <div class="video-thumbnail">
+                                <i class="fab fa-youtube"></i>
+                            </div>
+                            <div class="video-info">
+                                <div class="video-title">What's Your Elevator Pitch?</div>
+                                <div class="video-description">Techniques for delivering your story with confidence and authenticity in any setting.</div>
+                                <div class="video-duration">4 min</div>
+                            </div>
+                        </div>
+                        
+                        <div class="video-card" onclick="openVideo('https://youtu.be/xm_LLu8R_gk?si=h9Y6ZkuoPxAv9mHQ')">
+                            <div class="video-thumbnail">
+                                <i class="fab fa-youtube"></i>
+                            </div>
+                            <div class="video-info">
+                                <div class="video-title">How to be a Confident Public Speaker</div>
+                                <div class="video-description">Overcome nerves and deliver your message with power and authenticity.</div>
+                                <div class="video-duration">3 min</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exercise-box">
+                    <div class="exercise-title">
+                        <i class="fas fa-stopwatch"></i> 90-Second Story Challenge
+                    </div>
+                    <p>Combine your SPARK elements into a cohesive 90-second story:</p>
+                    
+                    <div class="reflection-area">
+                        <h3><i class="fas fa-script"></i> Your Complete Origin Story</h3>
+                        <textarea placeholder="Write your complete origin story here. Aim for 90 seconds when spoken aloud (roughly 200-250 words)." id="complete-story" style="min-height: 200px;"></textarea>
+                    </div>
+                    
+                    <button class="btn" onclick="startTimer()">
+                        <i class="fas fa-play"></i> Practice with Timer
+                    </button>
+                    <div id="timer-display" style="display: none; font-size: 2rem; text-align: center; margin: 20px 0; color: #667eea;"></div>
+                </div>
+
+                <div class="exercise-box">
+                    <div class="exercise-title">
+                        <i class="fas fa-calendar-check"></i> Integration Plan
+                    </div>
+                    <p>Plan how you'll use your origin story in real situations:</p>
+                    
+                    <div class="reflection-area">
+                        <h3><i class="fas fa-target"></i> Where Will You Use Your Story?</h3>
+                        <textarea placeholder="List 3 specific situations where you'll practice telling your origin story this week (networking events, team meetings, social gatherings, etc.)" id="integration-plan"></textarea>
+                    </div>
+                </div>
+
+                <ul class="checklist">
+                    <li><input type="checkbox" onchange="updateProgress()"> Watch presentation skills videos</li>
+                    <li><input type="checkbox" onchange="updateProgress()"> Write complete 90-second story</li>
+                    <li><input type="checkbox" onchange="updateProgress()"> Practice with timer</li>
+                    <li><input type="checkbox" onchange="updateProgress()"> Create integration plan</li>
+                </ul>
+
+                <div class="completion-badge" id="completion-badge" style="display: none;">
+                    <i class="fas fa-trophy"></i> Course Completed! 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let timerInterval;
+        let timerRunning = false;
+
+        function toggleModule(header) {
+            const content = header.nextElementSibling;
+            const chevron = header.querySelector('.chevron');
+            
+            content.classList.toggle('active');
+            chevron.classList.toggle('rotated');
+        }
+
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const checked = document.querySelectorAll('input[type="checkbox"]:checked');
+            const progress = (checked.length / checkboxes.length) * 100;
+            
+            document.getElementById('progress-fill').style.width = progress + '%';
+            document.getElementById('progress-percent').textContent = Math.round(progress) + '%';
+            
+            if (progress === 100) {
+                document.getElementById('completion-badge').style.display = 'flex';
+            }
+        }
+
+        function analyzeFiveWhys() {
+            document.getElementById('purpose-analysis').style.display = 'block';
+            document.getElementById('purpose-analysis').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function openVideo(url) {
+            window.open(url, '_blank');
+        }
+
+        function startTimer() {
+            const display = document.getElementById('timer-display');
+            const button = event.target;
+            
+            if (!timerRunning) {
+                display.style.display = 'block';
+                let seconds = 0;
+                timerRunning = true;
+                button.innerHTML = '<i class="fas fa-stop"></i> Stop Timer';
+                button.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
+                
+                timerInterval = setInterval(() => {
+                    seconds++;
+                    const minutes = Math.floor(seconds / 60);
+                    const remainingSeconds = seconds % 60;
+                    const timeString = `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+                    
+                    if (seconds <= 90) {
+                        display.textContent = timeString;
+                        display.style.color = '#4CAF50';
+                    } else {
+                        display.textContent = timeString + ' (Over 90s)';
+                        display.style.color = '#e74c3c';
+                    }
+                }, 1000);
+            } else {
+                clearInterval(timerInterval);
+                timerRunning = false;
+                button.innerHTML = '<i class="fas fa-play"></i> Practice with Timer';
+                button.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
+                
+                setTimeout(() => {
+                    display.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        // Initialize progress
+        updateProgress();
+        
+        // Open first module by default
+        document.querySelector('.module-header').click();
+    </script>
